@@ -13,7 +13,7 @@
 - name: apply firewall zone policies
   uci: command=set key="firewall.@zone[{{ item.1 }}].{{ item.0.chain }}" value="{{ item.0.policy }}"
   with_subelements:
-    - firewall.policies
+    - "{{ firewall.policies }}"
     - zone
   notify:
     - uci commit
@@ -23,7 +23,7 @@
 - name: firewall forwarding policies (prepare)
   uci: command=set key="firewall.@forwarding[{{ item.index }}]" value="forwarding"
   with_items:
-    firewall.forwarding
+    "{{ firewall.forwarding }}"
   notify:
     - uci commit
     - reload firewall
@@ -31,7 +31,7 @@
 - name: firewall forwarding policies
   uci: command=set key="firewall.@forwarding[{{ item.0.index }}].{{ item.1.key }}" value="{{ item.1.value }}"
   with_subelements:
-    - firewall.forwarding
+    - "{{ firewall.forwarding }}"
     - settings
   notify:
     - uci commit
@@ -41,7 +41,7 @@
 - name: firewall redirect rules (prepare)
   uci: command=set key="firewall.@redirect[{{ item.index }}]" value="redirect"
   with_items:
-    firewall.redirect
+    "{{ firewall.redirect }}"
   notify:
     - uci commit
     - reload firewall
@@ -49,7 +49,7 @@
 - name: firewall redirect rules
   uci: command=set key="firewall.@redirect[{{ item.0.index }}].{{ item.1.key }}" value="{{ item.1.value }}"
   with_subelements:
-    - firewall.redirect
+    - "{{ firewall.redirect }}"
     - settings
   notify:
     - uci commit
